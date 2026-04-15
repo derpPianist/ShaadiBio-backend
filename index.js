@@ -11,7 +11,7 @@ import cors from 'cors'
 
 const app = express();
 app.use(cors({
-  origin: process.env.DEVELOPMENT,
+  origin: process.env.DEVELOPMENT, //TODO
   credentials: true
 }))
 const PORT = process.env.PORT;

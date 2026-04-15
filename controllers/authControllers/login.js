@@ -14,11 +14,11 @@ export default async function jwtLogin(req, res) {
       where: { email: body.email },
     });
 
-    console.log(chalk.green("1. findAccount: "), findAccount) //coming as null
+    console.log(chalk.green("findAccount: "), findAccount.dataValues);
 
     if (!findAccount || findAccount === null) {
       return res.status(401).json({
-        message: "Account not found in database", //not being handled properly
+        message: "Account not found in database", 
       });
     }
 
@@ -50,7 +50,7 @@ export default async function jwtLogin(req, res) {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false, //to-do: set to true when deploying in prod
+      secure: false, //TODO: set to true when deploying in prod
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
