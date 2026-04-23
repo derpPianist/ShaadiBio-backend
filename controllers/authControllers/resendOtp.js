@@ -5,10 +5,10 @@ import sendOtpByMail from "../../utils/sendOtpByMail.js";
 
 export default async function resendOtp(req, res) {
   try {
-    const { phone_number } = req.body;
+    const { email } = req.body;
 
     const response = await otpModel.findOne({
-      where: { phone_number: phone_number },
+      where: { email: email },
     });
 
     if (response) {

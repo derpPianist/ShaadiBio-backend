@@ -34,7 +34,7 @@ export default async function sendOtpByMail(otp, email){
     // send the message
     try{
         const info = await transporter.sendMail({
-            from: "ShaadiBio-Team <no-reply@ShaadiBio.com>",
+            from: "ShaadiBio-Register <noreply.shaadibio@gmail.com>",
             to: email,
             subject: "OTP to register to ShaadiBio",
             text: `${otp} is your OTP to register your ShaadiBio Account. Do not share your otp. Valid for 5 minutes`,

@@ -9,9 +9,9 @@ import crypto from "crypto";
 export default async function verifyOtp(req, res) {
   //Extraction of phone & otp then basic error checking
 
-  const { otp, phone } = req.body;
+  const { otp, email } = req.body;
 
-  if (!otp || !phone) {
+  if (!otp || !email) {
     return res.status(400).json({
       message: "please enter otp",
     });
@@ -22,7 +22,7 @@ export default async function verifyOtp(req, res) {
     // get the necessary account details
 
     const accountDetails = await otpModel.findOne({
-      where: { phone_number: phone },
+      where: { email: email },
     });
 
     // console.log(accountDetails);
@@ -69,7 +69,7 @@ export default async function verifyOtp(req, res) {
 
         //destroy the otp session if successfully verified
 
-        await otpModel.destroy({ where: { phone_number: phone } });
+        await otpModel.destroy({ where: { email: email } });
 
         //login to dashboard after successful deletion
 
@@ -101,7 +101,7 @@ export default async function verifyOtp(req, res) {
         });
 
         return res.status(200).json({
-          message: "Account found!",
+          message: "Account created!",
           account: resultingAccount,
           refreshSession: refreshSession,
           accessToken: accessToken,
@@ -138,8 +138,8 @@ export default async function verifyOtp(req, res) {
 /**
  * Flow of data in the function:
  *
- * 1. OTP and phone number are entered from the frontend
- * 2. Verified if an account exists with that phone number
+ * 1. OTP and email are entered from the frontend
+ * 2. Verified if an account exists with that email
  * 3. Verify the otp provided and the time of submission
  * 4. If all checks out, create an account, destroy the session, issue tokens
  * 5. on failure, return 400

@@ -10,6 +10,8 @@ export default async function jwtLogin(req, res) {
   try {
     const body = req.body;
 
+    console.log("Body for login: ", body)
+
     const findAccount = await UserAccount.findOne({
       where: { email: body.email },
     });
@@ -30,6 +32,8 @@ export default async function jwtLogin(req, res) {
 
     const accessToken = await createAccessToken(findAccount);
     const refreshToken = await createRefreshToken(findAccount);
+
+    const { password, ...userAccount} = findAccount.toJSON()
 
     const tokenHash = crypto
       .createHash("sha256")
@@ -57,7 +61,8 @@ export default async function jwtLogin(req, res) {
 
     return res.status(200).json({
       message: "Login Successful",
-      Access_Token: accessToken,
+      accessToken: accessToken,
+      account: userAccount
     });
   } catch (error) {
 
